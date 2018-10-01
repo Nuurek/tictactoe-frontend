@@ -5,6 +5,7 @@ import 'rxjs/add/operator/take';
 
 import * as gameActions from '../../actions/game';
 import * as fromRoot from '../../reducers';
+import * as routerActions from "../../actions/router"
 
 @Component({
   selector: 'app-home',
@@ -21,13 +22,24 @@ export class HomeComponent {
     this.store.dispatch(new gameActions.CreateGame());
 
     this.actions$
-      .ofType(
+      .ofType<gameActions.CreateGameSuccess | gameActions.CreateGameFailure>(
         gameActions.ActionTypes.CREATE_GAME_SUCCESS,
         gameActions.ActionTypes.CREATE_GAME_FAILURE
       )
       .take(1)
       .subscribe(action => {
-        console.log(action);
+        switch(action.type) {
+          case gameActions.ActionTypes.CREATE_GAME_SUCCESS: {
+            this.store.dispatch(new routerActions.Go({
+              path: [`game/${action.payload.game.id}`]
+            }))
+            break;
+          }
+
+          case gameActions.ActionTypes.CREATE_GAME_FAILURE: {
+            break;
+          }
+        }
       });
   }
 }
