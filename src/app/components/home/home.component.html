@@ -4,7 +4,13 @@
 
     <md-list>
       <md-list-item>
-        <button md-raised-button color="accent">Create game</button>
+        <button 
+          md-raised-button 
+          color="accent"
+          (click)="createGame()"
+        >
+          Create game
+        </button>
       </md-list-item>
       <md-list-item>
         <button md-raised-button color="accent">Join game</button>

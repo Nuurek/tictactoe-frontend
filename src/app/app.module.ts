@@ -1,4 +1,6 @@
+import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
+import { HttpModule } from "@angular/http";
 import { MdButtonModule, MdChipsModule, MdListModule } from "@angular/material";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
@@ -11,8 +13,10 @@ import { environment } from "../environments/environment";
 import { AppComponent } from "./app.component";
 import { routes } from "./app.routes";
 import { HomeComponent } from "./components/home/home.component";
+import { GameEffects } from "./effects/game";
 import { RouterEffects } from "./effects/router";
 import { CustomRouterStateSerializer, metaReducers, reducers } from "./reducers";
+import { GameService } from "./services/game";
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -24,14 +28,19 @@ import { CustomRouterStateSerializer, metaReducers, reducers } from "./reducers"
     !environment.production
       ? StoreDevtoolsModule.instrument({ maxAge: 30 })
       : [],
-    EffectsModule.forRoot([RouterEffects]),
-    
+    EffectsModule.forRoot([
+      RouterEffects,
+      GameEffects
+    ]),
+    HttpClientModule,
+
     MdButtonModule,
     MdListModule,
     MdChipsModule
   ],
   providers: [
-    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer }
+    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
+    GameService
   ],
   bootstrap: [AppComponent]
 })
