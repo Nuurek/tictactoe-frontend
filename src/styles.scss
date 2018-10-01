@@ -1,0 +1,17 @@
+body {
+  margin: 0;
+
+  .title {
+    width: 100%;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-weight: bold;
+    font-size: 48px;
+    text-transform: uppercase;
+    text-align: center;
+    color: #9c27b0;
+    padding-bottom: 2%;
+    border-bottom: #2f2f2f solid 1px;
+    pointer-events: none;
+    cursor: pointer;
+  }
+}

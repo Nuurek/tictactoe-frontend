@@ -10,7 +10,7 @@ import * as routerActions from "../../actions/router"
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['../page/page.components.scss', './home.component.scss']
 })
 export class HomeComponent {
   constructor(
