@@ -24,7 +24,7 @@ export class BoardComponent implements OnInit, AfterContentInit, OnChanges {
 
   @ViewChild('canvas')
   canvasRef: ElementRef;
-  context: CanvasRenderingContext2D | any;
+  context: CanvasRenderingContext2D;
 
   GREY = '#555555';
   CELLS_PER_WIDTH = 3;
@@ -53,31 +53,11 @@ export class BoardComponent implements OnInit, AfterContentInit, OnChanges {
 
   private drawGrid() {
     this.context.fillStyle = this.GREY;
-    this.context.fillRect(
-      this.canvasWidth / 3 - this.gridWidth / 2,
-      0,
-      this.gridWidth,
-      this.canvasHeight
-    );
-    this.context.fillRect(
-      (2 * this.canvasWidth) / 3 - this.gridWidth / 2,
-      0,
-      this.gridWidth,
-      this.canvasHeight
-    );
-
-    this.context.fillRect(
-      0,
-      this.canvasHeight / 3 - this.gridWidth / 2,
-      this.canvasWidth,
-      this.gridWidth
-    );
-    this.context.fillRect(
-      0,
-      (2 * this.canvasHeight) / 3 - this.gridWidth / 2,
-      this.canvasWidth,
-      this.gridWidth
-    );
+    this.context.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+    
+    this.cells.map(cell => {
+      this.context.clearRect(cell.left, cell.top, cell.width, cell.height);
+    });
   }
 
   public onCellClick(fieldNumber) {
@@ -116,14 +96,14 @@ export class BoardComponent implements OnInit, AfterContentInit, OnChanges {
     const cellWidthRatio =
       (1 - this.GRID_WIDTH_RATIO * (this.CELLS_PER_WIDTH - 1)) /
       this.CELLS_PER_WIDTH;
-    const cellWidth = cellWidthRatio * this.canvasClientWidth;
+    const cellWidth = cellWidthRatio * this.canvasWidth;
 
     const cellHeightRatio =
       (1 - this.GRID_WIDTH_RATIO * (this.CELLS_PER_HEIGHT - 1)) /
       this.CELLS_PER_HEIGHT;
-    const cellHeight = cellWidthRatio * this.canvasClientHeight;
+    const cellHeight = cellHeightRatio * this.canvasHeight;
 
-    const gridWidth = this.gridClientWidth;
+    const gridWidth = this.gridWidth;
 
     const cells = [];
 
@@ -145,5 +125,21 @@ export class BoardComponent implements OnInit, AfterContentInit, OnChanges {
     }
 
     return cells;
+  }
+
+  get canvasToClientRatio() {
+    return this.canvasWidth / this.canvasClientWidth;
+  }
+
+  get clientCells() {
+    return this.cells.map(cell => {
+      return {
+        ...cell,
+        left: cell.left / this.canvasToClientRatio,
+        top: cell.top / this.canvasToClientRatio,
+        width: cell.width / this.canvasToClientRatio,
+        height: cell.height / this.canvasToClientRatio
+      }
+    })
   }
 }
