@@ -3,5 +3,11 @@
   
   .title {
     padding-bottom: 0.5%;
+    display: flex;
+    justify-content: center;
+
+    .game-id {
+      padding-left: 1%;
+    }
   }
 }

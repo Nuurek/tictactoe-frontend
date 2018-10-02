@@ -35,17 +35,24 @@ export class GameEffects {
 
   @Effect({ dispatch: false })
   $joinGameAccept = this.actions$
-    .ofType<gameActions.JoinGameAccept>(gameActions.ActionTypes.JOIN_GAME_ACCEPT)
+    .ofType<gameActions.JoinGameAccept>(
+      gameActions.ActionTypes.JOIN_GAME_ACCEPT
+    )
     .do(action => {
-      sessionStorage.setItem(LOCAL_STORAGE_PLAYER_ID_KEY, action.payload.game.playerId);
-    })
+      sessionStorage.setItem(
+        LOCAL_STORAGE_PLAYER_ID_KEY,
+        action.payload.game.playerId
+      );
+    });
 
   @Effect({ dispatch: false })
   $joinGameReject = this.actions$
-    .ofType<gameActions.JoinGameReject>(gameActions.ActionTypes.JOIN_GAME_REJECT)
+    .ofType<gameActions.JoinGameReject>(
+      gameActions.ActionTypes.JOIN_GAME_REJECT
+    )
     .do(action => {
       sessionStorage.removeItem(LOCAL_STORAGE_PLAYER_ID_KEY);
-    })
+    });
 
   constructor(private actions$: Actions, private gameService: GameService) {}
 }

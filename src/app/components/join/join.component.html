@@ -1,0 +1,19 @@
+<div class="page">
+  <div class="menu">
+    <span class="title">Join game</span>
+
+    <form [formGroup]="form">
+      <md-list>
+          <md-input-container #inputContainer>
+            <input 
+              mdInput type="text" placeholder="Game uuid" floatPlaceholder="always" autofocus 
+              [formControl]="id"
+            >
+          </md-input-container>
+          <md-list-item>
+            <a md-raised-button color="accent" [routerLink]="gameLink">Join</a>
+          </md-list-item>
+        </md-list>
+    </form>
+  </div>
+</div>

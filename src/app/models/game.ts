@@ -6,11 +6,17 @@ export enum Field {
 export interface Game {
   id: string;
   playerId?: string;
+  fields: Field[];
   firstPlayer: Field;
+  winner: Field;
+  currentTurn: Field;
 }
 
 export interface APIGame {
   id: string;
   player_id?: string;
-  first_player: Field
+  fields: Field[];
+  first_player: Field;
+  winner: Field;
+  current_turn: Field;
 }

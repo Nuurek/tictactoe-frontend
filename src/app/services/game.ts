@@ -2,11 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject";
 
 import { environment } from "../../environments/environment";
 import * as gameActions from "../actions/game";
-import { Game, APIGame } from "../models/game";
+import { APIGame, Game } from "../models/game";
 import * as fromRoot from "../reducers";
 
 enum MessageType {
@@ -21,7 +20,6 @@ export class GameService {
   GAMES_WS_PATH = `${environment.wsUrl}/ws/games`;
   private socket: WebSocket;
   private gameId: string;
-  private joinGameSubject: Subject<gameActions.Actions>;
 
   constructor(
     protected http: HttpClient,
@@ -29,7 +27,9 @@ export class GameService {
   ) {}
 
   public createGame(): Observable<Game> {
-    return this.http.post<APIGame>(this.GAMES_API_PATH, {}).map(apiGame => this.mapAPIToLocal(apiGame));
+    return this.http
+      .post<APIGame>(this.GAMES_API_PATH, {})
+      .map(apiGame => this.mapAPIToLocal(apiGame));
   }
 
   public joinGame(gameId: string, playerId: string): void {
@@ -91,8 +91,11 @@ export class GameService {
   private mapAPIToLocal(apiGame: APIGame): Game {
     const game: Game = {
       id: apiGame.id,
-      firstPlayer: apiGame.first_player
-    }
+      fields: apiGame.fields,
+      firstPlayer: apiGame.first_player,
+      winner: apiGame.winner,
+      currentTurn: apiGame.current_turn
+    };
     if (apiGame.player_id) {
       game.playerId = apiGame.player_id;
     }
@@ -103,7 +106,10 @@ export class GameService {
     return {
       id: game.id,
       player_id: game.playerId,
-      first_player: game.firstPlayer
-    }
+      fields: game.fields,
+      first_player: game.firstPlayer,
+      winner: game.winner,
+      current_turn: game.currentTurn
+    };
   }
 }
