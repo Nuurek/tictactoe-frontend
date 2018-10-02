@@ -13,6 +13,8 @@ export enum ActionTypes {
 
   SET_GAME_STATE = '[Games] Set Game State',
 
+  MAKE_MOVE = '[Games] Make Move',
+
   GAME_ERROR = '[Games] Game Error'
 }
 
@@ -58,6 +60,12 @@ export class SetGameState implements Action {
   constructor(public payload: { game: Game }) {}
 }
 
+export class MakeMove implements Action {
+  readonly type = ActionTypes.MAKE_MOVE;
+
+  constructor(public payload: { field: number }) {}
+}
+
 export class GameError implements Action {
   readonly type = ActionTypes.GAME_ERROR;
 
@@ -72,4 +80,5 @@ export type Actions =
   | JoinGameAccept
   | JoinGameReject
   | SetGameState
+  | MakeMove
   | GameError;

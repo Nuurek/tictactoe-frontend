@@ -6,6 +6,7 @@
   <div class="board-container">
     <app-board
       [game]="currentGame$ | async"
+      (fieldClicked)="onFieldClicked($event)"
     ></app-board>
   </div>
 </div>

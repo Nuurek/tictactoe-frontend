@@ -47,6 +47,11 @@ export class GameService {
     this.socket.onclose = this.onClose;
   }
 
+  public makeMove(field: number) {
+    const data = { field };
+    this.socket.send(JSON.stringify(data));
+  }
+
   public exitGame() {
     this.gameId = undefined;
     this.socket.close();

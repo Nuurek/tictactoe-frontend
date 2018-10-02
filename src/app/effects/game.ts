@@ -54,5 +54,12 @@ export class GameEffects {
       sessionStorage.removeItem(LOCAL_STORAGE_PLAYER_ID_KEY);
     });
 
+  @Effect({ dispatch: false })
+  $makeMove = this.actions$
+    .ofType<gameActions.MakeMove>(gameActions.ActionTypes.MAKE_MOVE)
+    .do(action => {
+      this.gameService.makeMove(action.payload.field);
+    })
+
   constructor(private actions$: Actions, private gameService: GameService) {}
 }

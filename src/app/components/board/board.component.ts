@@ -8,7 +8,9 @@ import {
   OnChanges,
   AfterViewInit,
   AfterViewChecked,
-  AfterContentInit
+  AfterContentInit,
+  Output,
+  EventEmitter
 } from '@angular/core';
 
 import { Game, Field } from '../../models/game';
@@ -21,6 +23,9 @@ import { Game, Field } from '../../models/game';
 export class BoardComponent implements OnInit, AfterContentInit, OnChanges {
   @Input()
   game = <Game>undefined;
+
+  @Output()
+  fieldClicked = new EventEmitter<number>();
 
   @ViewChild('canvas')
   canvasRef: ElementRef;
@@ -61,7 +66,9 @@ export class BoardComponent implements OnInit, AfterContentInit, OnChanges {
   }
 
   public onCellClick(fieldNumber) {
-    console.log(fieldNumber);
+    if (!this.game.fields[fieldNumber]) {
+      this.fieldClicked.emit(fieldNumber);
+    }
   }
 
   get canvas() {
