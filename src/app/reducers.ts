@@ -1,19 +1,11 @@
-import { Params, RouterStateSnapshot } from '@angular/router';
-import {
-  routerReducer,
-  RouterReducerState,
-  RouterStateSerializer
-} from '@ngrx/router-store';
-import {
-  Action,
-  ActionReducer,
-  ActionReducerMap,
-  MetaReducer
-} from '@ngrx/store';
-import { storeFreeze } from 'ngrx-store-freeze';
+import { Params, RouterStateSnapshot } from "@angular/router";
+import { routerReducer, RouterReducerState, RouterStateSerializer } from "@ngrx/router-store";
+import { Action, ActionReducer, ActionReducerMap, MetaReducer } from "@ngrx/store";
+import { storeFreeze } from "ngrx-store-freeze";
 
-import { environment } from '../environments/environment';
-import { ROUTER_ACTIONS_PREFIX } from './actions/router';
+import { environment } from "../environments/environment";
+import { ROUTER_ACTIONS_PREFIX } from "./actions/router";
+import * as fromGames from "./reducers/game";
 
 export interface RouterStateUrl {
   url: string;
@@ -22,6 +14,7 @@ export interface RouterStateUrl {
 
 export interface State {
   router: RouterReducerState<RouterStateUrl>;
+  games: fromGames.State;
 }
 
 export class CustomRouterStateSerializer
@@ -48,7 +41,8 @@ export function freezer(reducer: ActionReducer<any>): ActionReducer<any> {
   };
 }
 export const reducers: ActionReducerMap<State> = {
-  router: routerReducer
+  router: routerReducer,
+  games: fromGames.reducer
 };
 
 export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
