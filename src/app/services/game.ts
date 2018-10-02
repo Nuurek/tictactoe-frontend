@@ -6,11 +6,13 @@ import { Subject } from "rxjs/Subject";
 
 import { environment } from "../../environments/environment";
 import * as gameActions from "../actions/game";
-import { Game } from "../models/game";
+import { Game, APIGame } from "../models/game";
 import * as fromRoot from "../reducers";
 
 enum MessageType {
-  ACCEPTED = 'accepted'
+  ACCEPTED = 'accepted',
+  REJECTED = 'rejected',
+  GAME_STATE = 'game_state'
 }
 
 @Injectable()
@@ -19,7 +21,7 @@ export class GameService {
   GAMES_WS_PATH = `${environment.wsUrl}/ws/games`;
   private socket: WebSocket;
   private gameId: string;
-  private joinGameSubject: Subject<string>;
+  private joinGameSubject: Subject<gameActions.Actions>;
 
   constructor(
     protected http: HttpClient,
@@ -27,14 +29,10 @@ export class GameService {
   ) {}
 
   public createGame(): Observable<Game> {
-    return this.http.post<Game>(this.GAMES_API_PATH, {});
+    return this.http.post<APIGame>(this.GAMES_API_PATH, {}).map(apiGame => this.mapAPIToLocal(apiGame));
   }
 
-  public fetchGame(gameId: string): Observable<Game> {
-    return this.http.get<Game>(`${this.GAMES_API_PATH}/${gameId}`);
-  }
-
-  public joinGame(gameId: string, playerId: string): Observable<string> {
+  public joinGame(gameId: string, playerId: string): void {
     this.gameId = gameId;
     let url = `${this.GAMES_WS_PATH}/${this.gameId}`;
 
@@ -47,9 +45,6 @@ export class GameService {
     this.socket.onmessage = this.onMessage.bind(this);
     this.socket.onerror = this.onError.bind(this);
     this.socket.onclose = this.onClose;
-
-    this.joinGameSubject = new Subject<string>();
-    return this.joinGameSubject.asObservable();
   }
 
   public exitGame() {
@@ -66,10 +61,20 @@ export class GameService {
 
     const messageType = data.type;
     const content = data.content;
+    const game = this.mapAPIToLocal(content.game);
     switch (messageType) {
       case MessageType.ACCEPTED: {
-        const playerId = content.player_id;
-        this.joinGameSubject.next(playerId);
+        this.store.dispatch(new gameActions.JoinGameAccept({ game }));
+        break;
+      }
+
+      case MessageType.REJECTED: {
+        this.store.dispatch(new gameActions.JoinGameReject({ game }));
+        break;
+      }
+
+      case MessageType.GAME_STATE: {
+        this.store.dispatch(new gameActions.SetGameState({ game }));
         break;
       }
     }
@@ -81,5 +86,24 @@ export class GameService {
 
   private onClose(message) {
     console.log('Close');
+  }
+
+  private mapAPIToLocal(apiGame: APIGame): Game {
+    const game: Game = {
+      id: apiGame.id,
+      firstPlayer: apiGame.first_player
+    }
+    if (apiGame.player_id) {
+      game.playerId = apiGame.player_id;
+    }
+    return game;
+  }
+
+  private mapLocalToAPI(game: Game): APIGame {
+    return {
+      id: game.id,
+      player_id: game.playerId,
+      first_player: game.firstPlayer
+    }
   }
 }

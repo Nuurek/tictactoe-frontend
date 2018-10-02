@@ -8,7 +8,10 @@ export enum ActionTypes {
   CREATE_GAME_FAILURE = '[Games] Create Game Failure',
 
   JOIN_GAME = '[Games] Join Game',
-  JOIN_GAME_SUCCESS = '[Games] Join Game Success',
+  JOIN_GAME_ACCEPT = '[Games] Join Game Accept',
+  JOIN_GAME_REJECT = '[Games] Join Game Reject',
+
+  SET_GAME_STATE = '[Games] Set Game State',
 
   GAME_ERROR = '[Games] Game Error'
 }
@@ -37,10 +40,22 @@ export class JoinGame implements Action {
   constructor(public payload: { gameId: string }) {}
 }
 
-export class JoinGameSuccess implements Action {
-  readonly type = ActionTypes.JOIN_GAME_SUCCESS;
+export class JoinGameAccept implements Action {
+  readonly type = ActionTypes.JOIN_GAME_ACCEPT;
 
-  constructor(public payload: { gameId: string; playerId: string }) {}
+  constructor(public payload: { game: Game }) {}
+}
+
+export class JoinGameReject implements Action {
+  readonly type = ActionTypes.JOIN_GAME_REJECT;
+
+  constructor(public payload: { game: Game }) {}
+}
+
+export class SetGameState implements Action {
+  readonly type = ActionTypes.SET_GAME_STATE;
+
+  constructor(public payload: { game: Game }) {}
 }
 
 export class GameError implements Action {
@@ -54,5 +69,7 @@ export type Actions =
   | CreateGameSuccess
   | CreateGameFailure
   | JoinGame
-  | JoinGameSuccess
+  | JoinGameAccept
+  | JoinGameReject
+  | SetGameState
   | GameError;

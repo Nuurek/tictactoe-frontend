@@ -24,26 +24,28 @@ export class GameEffects {
         .catch(error => of(new gameActions.CreateGameFailure({ error })));
     });
 
-  @Effect()
+  @Effect({ dispatch: false })
   $joinGame = this.actions$
     .ofType<gameActions.JoinGame>(gameActions.ActionTypes.JOIN_GAME)
-    .mergeMap(action => {
+    .do(action => {
       const gameId = action.payload.gameId;
-      const playerId = localStorage.getItem(LOCAL_STORAGE_PLAYER_ID_KEY);
-      return this.gameService
-        .joinGame(gameId, playerId)
-        .map(playerId => {
-          localStorage.setItem(LOCAL_STORAGE_PLAYER_ID_KEY, playerId);
-          return new gameActions.JoinGameSuccess({ gameId, playerId });
-        })
-        .catch(error => of(new gameActions.GameError({ error })));
+      const playerId = sessionStorage.getItem(LOCAL_STORAGE_PLAYER_ID_KEY);
+      this.gameService.joinGame(gameId, playerId);
     });
 
-  // @Effect() $joinGameSuccess = this.actions$
-  //   .ofType<gameActions.JoinGameSuccess>(gameActions.ActionTypes.JOIN_GAME_SUCCESS)
-  //   .subscribe(action => {
-  //     localStorage.setItem(LOCAL_STORAGE_PLAYER_ID_KEY, action.payload.playerId);
-  //   })
+  @Effect({ dispatch: false })
+  $joinGameAccept = this.actions$
+    .ofType<gameActions.JoinGameAccept>(gameActions.ActionTypes.JOIN_GAME_ACCEPT)
+    .do(action => {
+      sessionStorage.setItem(LOCAL_STORAGE_PLAYER_ID_KEY, action.payload.game.playerId);
+    })
+
+  @Effect({ dispatch: false })
+  $joinGameReject = this.actions$
+    .ofType<gameActions.JoinGameReject>(gameActions.ActionTypes.JOIN_GAME_REJECT)
+    .do(action => {
+      sessionStorage.removeItem(LOCAL_STORAGE_PLAYER_ID_KEY);
+    })
 
   constructor(private actions$: Actions, private gameService: GameService) {}
 }
