@@ -1,7 +1,14 @@
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
-import { MdButtonModule, MdChipsModule, MdInputModule, MdListModule } from "@angular/material";
+import {
+  MdButtonModule,
+  MdChipsModule,
+  MdInputModule,
+  MdListModule,
+  MdProgressBarModule,
+  MdProgressSpinnerModule,
+} from "@angular/material";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
@@ -46,7 +53,9 @@ import { GameService } from "./services/game";
     MdButtonModule,
     MdListModule,
     MdChipsModule,
-    MdInputModule
+    MdInputModule,
+    MdProgressBarModule,
+    MdProgressSpinnerModule
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },

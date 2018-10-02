@@ -1,12 +1,12 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
-import { environment } from "../../environments/environment";
-import * as gameActions from "../actions/game";
-import { APIGame, Game } from "../models/game";
-import * as fromRoot from "../reducers";
+import { environment } from '../../environments/environment';
+import * as gameActions from '../actions/game';
+import { APIGame, Game } from '../models/game';
+import * as fromRoot from '../reducers';
 
 enum MessageType {
   ACCEPTED = 'accepted',
@@ -99,6 +99,9 @@ export class GameService {
     if (apiGame.player_id) {
       game.playerId = apiGame.player_id;
     }
+    if (apiGame.player_mark) {
+      game.playerMark = apiGame.player_mark;
+    }
     return game;
   }
 
@@ -106,6 +109,7 @@ export class GameService {
     return {
       id: game.id,
       player_id: game.playerId,
+      player_mark: game.playerMark,
       fields: game.fields,
       first_player: game.firstPlayer,
       winner: game.winner,

@@ -16,4 +16,27 @@
       </div>
     </ng-container>
   </div>
+  <div class="messages">
+    <md-list>
+      <ng-container *ngIf="!game?.currentTurn">
+          <md-list-item>
+            <span class="message">Waiting for second player</span>
+          </md-list-item>
+          <md-list-item>
+            <md-progress-bar mode="indeterminate"></md-progress-bar>
+          </md-list-item>
+      </ng-container>
+      <ng-container *ngIf="game?.currentTurn && !game?.winner">
+          <md-list-item>
+            <span class="message">Your mark: {{ game?.playerMark }}</span>
+          </md-list-item>
+          <md-list-item>
+            <span class="message">Opponent mark: {{ opponentMark }}</span>
+          </md-list-item>
+          <md-list-item>
+            <span class="message">Current turn: {{ game?.currentTurn }}</span>
+          </md-list-item>
+      </ng-container>
+    </md-list>
+  </div>
 </div>

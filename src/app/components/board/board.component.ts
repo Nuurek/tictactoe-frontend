@@ -11,7 +11,7 @@ import {
   AfterContentInit
 } from '@angular/core';
 
-import { Game } from '../../models/game';
+import { Game, Field } from '../../models/game';
 
 @Component({
   selector: 'app-board',
@@ -141,5 +141,9 @@ export class BoardComponent implements OnInit, AfterContentInit, OnChanges {
         height: cell.height / this.canvasToClientRatio
       }
     })
+  }
+
+  get opponentMark() {
+    return this.game.playerMark == Field.X ? Field.O : Field.X;
   }
 }

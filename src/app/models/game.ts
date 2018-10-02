@@ -6,6 +6,7 @@ export enum Field {
 export interface Game {
   id: string;
   playerId?: string;
+  playerMark?: Field;
   fields: Field[];
   firstPlayer: Field;
   winner: Field;
@@ -15,6 +16,7 @@ export interface Game {
 export interface APIGame {
   id: string;
   player_id?: string;
+  player_mark?: Field;
   fields: Field[];
   first_player: Field;
   winner: Field;
