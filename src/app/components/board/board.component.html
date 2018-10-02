@@ -1,3 +1,19 @@
-{{ game | json }}
-<canvas #canvas>
-</canvas>
+<div class="board">
+  <div class="canvas-container">
+    <canvas #canvas width="1000" height="1000">
+    </canvas>
+
+    <ng-container *ngIf="context">
+      <div
+        *ngFor="let cell of cells" 
+        class="cell"
+        [style.top.px]="cell.top"
+        [style.left.px]="cell.left"
+        [style.width.px]="cell.width"
+        [style.height.px]="cell.height"
+        (click)="onCellClick(cell.fieldNumber)"
+      >
+      </div>
+    </ng-container>
+  </div>
+</div>
