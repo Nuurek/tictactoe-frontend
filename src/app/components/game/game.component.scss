@@ -1,5 +1,5 @@
 .page {
-  justify-content: space-between;
+  justify-content: flex-start;
   
   .title {
     padding-bottom: 0.5%;
@@ -9,5 +9,11 @@
     .game-id {
       padding-left: 1%;
     }
+  }
+
+  .board-container {
+    padding-top: 10vh;
+    width: 40vh;
+    height: 40vh;
   }
 }

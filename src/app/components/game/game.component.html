@@ -3,4 +3,9 @@
     <div>Game</div>
     <div class="game-id">{{ gameId }}</div>
   </div>
+  <div class="board-container">
+    <app-board
+      [game]="currentGame$ | async"
+    ></app-board>
+  </div>
 </div>

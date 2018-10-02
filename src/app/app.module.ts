@@ -13,6 +13,7 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "../environments/environment";
 import { AppComponent } from "./app.component";
 import { routes } from "./app.routes";
+import { BoardComponent } from "./components/board/board.component";
 import { GameComponent } from "./components/game/game.component";
 import { HomeComponent } from "./components/home/home.component";
 import { JoinComponent } from "./components/join/join.component";
@@ -22,7 +23,13 @@ import { CustomRouterStateSerializer, metaReducers, reducers } from "./reducers"
 import { GameService } from "./services/game";
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, GameComponent, JoinComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    GameComponent,
+    JoinComponent,
+    BoardComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

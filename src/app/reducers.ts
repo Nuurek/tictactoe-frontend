@@ -1,6 +1,6 @@
 import { Params, RouterStateSnapshot } from "@angular/router";
 import { routerReducer, RouterReducerState, RouterStateSerializer } from "@ngrx/router-store";
-import { Action, ActionReducer, ActionReducerMap, MetaReducer } from "@ngrx/store";
+import { Action, ActionReducer, ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } from "@ngrx/store";
 import { storeFreeze } from "ngrx-store-freeze";
 
 import { environment } from "../environments/environment";
@@ -57,3 +57,9 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
 export const metaReducers: MetaReducer<State>[] = !environment.production
   ? [logger, freezer]
   : [];
+
+export const selectGameState = createFeatureSelector('games');
+export const selectCurrentGame = createSelector(
+  selectGameState,
+  fromGames.selectCurrentGame
+);

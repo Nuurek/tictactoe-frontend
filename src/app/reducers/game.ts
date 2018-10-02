@@ -77,3 +77,5 @@ export function reducer(
     }
   }
 }
+
+export const selectCurrentGame = (state: State) => state.entities[state.currentGameId];
