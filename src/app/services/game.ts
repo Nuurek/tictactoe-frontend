@@ -52,7 +52,7 @@ export class GameService {
     this.socket.send(JSON.stringify(data));
   }
 
-  public exitGame() {
+  public endGame() {
     this.gameId = undefined;
     this.socket.close();
   }

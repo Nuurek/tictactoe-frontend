@@ -26,9 +26,11 @@ export class GameComponent implements OnInit, OnDestroy {
     this.store.dispatch(new gameActions.JoinGame({ gameId: this.gameId }));
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.store.dispatch(new gameActions.EndGame());
+  }
 
   onFieldClicked(field: number) {
-    this.store.dispatch(new gameActions.MakeMove({ field }))
+    this.store.dispatch(new gameActions.MakeMove({ field }));
   }
 }

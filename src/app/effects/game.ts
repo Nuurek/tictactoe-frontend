@@ -61,5 +61,12 @@ export class GameEffects {
       this.gameService.makeMove(action.payload.field);
     })
 
+  @Effect({ dispatch: false })
+  $endGame = this.actions$
+    .ofType<gameActions.EndGame>(gameActions.ActionTypes.END_GAME)
+    .do(action => {
+      this.gameService.endGame();
+    })
+
   constructor(private actions$: Actions, private gameService: GameService) {}
 }

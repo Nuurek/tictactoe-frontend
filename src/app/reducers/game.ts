@@ -64,6 +64,13 @@ export function reducer(
       }
     }
 
+    case gameActions.ActionTypes.END_GAME: {
+      return {
+        ...state,
+        currentGameId: null
+      }
+    }
+
     case gameActions.ActionTypes.CREATE_GAME_FAILURE:
     case gameActions.ActionTypes.GAME_ERROR: {
       return {

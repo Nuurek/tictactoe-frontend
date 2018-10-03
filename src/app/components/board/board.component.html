@@ -18,6 +18,9 @@
   </div>
   <div class="messages">
     <md-list>
+      <md-list-item *ngIf="!game?.playerId">
+        <span class="message">Spectating</span>
+      </md-list-item>
       <ng-container *ngIf="!game?.currentTurn && !game?.winner">
           <md-list-item>
             <span class="message">Waiting for second player</span>
