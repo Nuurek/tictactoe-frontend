@@ -18,7 +18,7 @@
   </div>
   <div class="messages">
     <md-list>
-      <ng-container *ngIf="!game?.currentTurn">
+      <ng-container *ngIf="!game?.currentTurn && !game?.winner">
           <md-list-item>
             <span class="message">Waiting for second player</span>
           </md-list-item>
@@ -27,14 +27,55 @@
           </md-list-item>
       </ng-container>
       <ng-container *ngIf="game?.currentTurn && !game?.winner">
+        <ng-container *ngIf="game?.playerId">
           <md-list-item>
-            <span class="message">Your mark: {{ game?.playerMark }}</span>
+            <span class="message green">Your mark: {{ game.playerMark }}</span>
           </md-list-item>
           <md-list-item>
-            <span class="message">Opponent mark: {{ opponentMark }}</span>
+            <span 
+              class="message"
+              [ngClass]="{
+                'green': game.currentTurn == game.playerMark
+              }"
+            >
+              {{ game.currentTurn == game.playerMark ? "Your turn" : "Opponent's turn" }}
+            </span>
           </md-list-item>
+        </ng-container>
+        <ng-container *ngIf="!game?.playerId">
           <md-list-item>
-            <span class="message">Current turn: {{ game?.currentTurn }}</span>
+            <span 
+              class="message"
+            >
+              {{ game.currentTurn  }} turn
+            </span>
+          </md-list-item>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="game?.winner">
+        <md-list-item *ngIf="game.winner != 'draw'">
+          <span
+            *ngIf="game?.playerId"
+            class="message"
+            [ngClass]="{
+              'green': game.winner == game.playerMark
+            }"
+          >
+            {{ game.winner == game.playerMark ? "You won" : "You lost" }}
+          </span>
+          <span
+            *ngIf="!game?.playerId"
+            class="message"
+          >
+            {{ game.winner }} won
+          </span>
+        </md-list-item>
+        <md-list-item *ngIf="game.winner == 'draw'">
+            <span 
+              class="message"
+            >
+              Draw
+            </span>
           </md-list-item>
       </ng-container>
     </md-list>
